@@ -107,7 +107,7 @@ while True:
     mines = ((solutions == MINE).sum(axis=0) == len(solutions)).nonzero()
     field[mines] = FLAGGED
     for coordinate in numpy.vstack(mines).transpose():
-        msms.click_cell(numpy.array(coordinate), button="right")
+        msms.click_cell(coordinate, button="right")
     while True:
         old_field = field.copy()
         msms.update_field(field)
