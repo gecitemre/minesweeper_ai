@@ -6,6 +6,7 @@ from os import listdir
 from tensorflow import keras
 from itertools import product
 
+
 def get_code(image):
     return CLASS_NAMES[
         model.predict(
@@ -59,7 +60,7 @@ def get_cell_coordinates(image):
 
 def click_cell(cell_coordinate: numpy.ndarray, button="left") -> numpy.ndarray:
     coordinate = (
-        cell_coordinate * numpy.array((CELL_WIDTH, CELL_HEIGTH))
+        numpy.flip(cell_coordinate) * numpy.array((CELL_WIDTH, CELL_HEIGTH))
         + TOP_LEFT
         + numpy.array((CELL_WIDTH // 2, CELL_HEIGTH // 2))
     )
@@ -78,7 +79,7 @@ def update_field(field: numpy.ndarray):
     for y in range(FIELD_HEIGHT):
         for x in range(FIELD_WIDTH):
             cell_id = FIELD_WIDTH * y + x
-            if field[y, x] == UNKNOWN and field[y, x] != FLAGGED:
+            if field[y, x] == UNKNOWN:
                 cell = screenshot.crop(cell_coordinates[cell_id])
                 field[y, x] = get_code(cell)
                 # dir = max([int(dir[:-4]) for dir in listdir(str(field[y,x]))])
