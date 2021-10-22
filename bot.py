@@ -92,7 +92,7 @@ def find_solutions(field, cell_id):
 
 
 field = UNKNOWN * numpy.ones((msms.FIELD_HEIGHT, msms.FIELD_WIDTH), dtype=numpy.int8)
-#msms.update_field(field)
+
 while True:
     solutions = numpy.array(find_solutions(field, 0))
     safes = numpy.vstack(((solutions == SAFE).sum(axis=0) == len(solutions)).nonzero()).transpose()
