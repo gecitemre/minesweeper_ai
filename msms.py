@@ -1,4 +1,3 @@
-from numpy.core.defchararray import find
 import pyautogui
 import numpy
 from PIL import Image
