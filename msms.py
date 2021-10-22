@@ -1,6 +1,6 @@
 import pyautogui
 import numpy
-from PIL import Image
+from PIL import Image, ImageChops
 from os import listdir
 from tensorflow import keras
 from itertools import product
@@ -75,24 +75,43 @@ def update_field(field: numpy.ndarray):
             IMAGE_HEIGHT,
         )
     )
-    for y in range(FIELD_HEIGHT):
-        for x in range(FIELD_WIDTH):
-            cell_id = FIELD_WIDTH * y + x
-            if field[y, x] == UNKNOWN:
-                cell = screenshot.crop(cell_coordinates[cell_id])
-                field[y, x] = get_code(cell)
-                # dir = max([int(dir[:-4]) for dir in listdir(str(field[y,x]))])
-                # cell.save(f"{field[y,x]}/{dir+1}.png")
+    while True:
+        old_screenshot = screenshot
+        screenshot = pyautogui.screenshot(
+            region=(
+                TOP_LEFT[0],
+                TOP_LEFT[1],
+                IMAGE_WIDTH,
+                IMAGE_HEIGHT,
+            )
+        )
+        if not ImageChops.difference(old_screenshot, screenshot).getbbox():
+            break
+    field2 = numpy.zeros(field.shape, dtype=bool)
+    field2[0, 0] = True
+    update_field_helper(screenshot, field, field2)
+
+
+def update_field_helper(screenshot, field, field2, y=0, x=0):
+    for j in range(max(0, y - 1), min(FIELD_HEIGHT, y + 2)):
+        for i in range(max(0, x - 1), min(FIELD_WIDTH, x + 2)):
+            if field[j, i] == UNKNOWN:
+                field[j, i] = get_code(
+                    screenshot.crop(cell_coordinates[FIELD_WIDTH * j + i])
+                )
+            if field2[j, i] == False and field[j, i] != UNKNOWN:
+                field2[j, i] = True
+                update_field_helper(screenshot, field, field2, j, i)
 
 
 input("top left: ")
 position = pyautogui.position()
 left, top = position
-print(f"\033[F\033[{len('top left: ')}G {position}")
+print(position, end="\n\n")
 input("bottom right: ")
 position = pyautogui.position()
 right, bottom = position
-print(f"\033[F\033[{len('bottom right: ')}G {position}")
+print(position, end="\n\n")
 pixels = numpy.asarray(
     exclusive_gray_filter(
         pyautogui.screenshot(region=(left, top, right - left, bottom - top))

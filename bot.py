@@ -8,7 +8,7 @@ FLAGGED = -4
 SAFE = -3
 MINE = -2
 UNKNOWN = -1
-DICTIONARY = {-4: "⚑", -2: "M", -1: "?", 0: "0", 1: "1", 2: "2", 3: "3", 4: "4", 5: "5"}
+DICTIONARY = {-4: "!", -1: "?", 0: "0", 1: "1", 2: "2", 3: "3", 4: "4", 5: "5"}
 
 
 def id2coordinate(cell_id):
@@ -92,7 +92,7 @@ def find_solutions(field, cell_id):
 
 
 field = UNKNOWN * numpy.ones((msms.FIELD_HEIGHT, msms.FIELD_WIDTH), dtype=numpy.int8)
-msms.update_field(field)
+#msms.update_field(field)
 while True:
     solutions = numpy.array(find_solutions(field, 0))
     safes = numpy.vstack(((solutions == SAFE).sum(axis=0) == len(solutions)).nonzero()).transpose()
@@ -108,11 +108,8 @@ while True:
     field[mines] = FLAGGED
     for coordinate in numpy.vstack(mines).transpose():
         msms.click_cell(coordinate, button="right")
-    while True:
-        old_field = field.copy()
-        msms.update_field(field)
-        if numpy.array_equal(old_field, field):
-            break
+    msms.update_field(field)
+    print_field(field)
     if (field != UNKNOWN).all():
         pyautogui.screenshot().show()
         quit()
