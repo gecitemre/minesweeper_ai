@@ -95,20 +95,25 @@ field = UNKNOWN * numpy.ones((msms.FIELD_HEIGHT, msms.FIELD_WIDTH), dtype=numpy.
 
 while True:
     solutions = numpy.array(find_solutions(field, 0))
-    safes = numpy.vstack(((solutions == SAFE).sum(axis=0) == len(solutions)).nonzero()).transpose()
+    if not solutions.size:
+        quit()
+    print(solutions)
+    safes = numpy.vstack(
+        ((solutions == SAFE).sum(axis=0) == len(solutions)).nonzero()
+    ).transpose()
     for coordinate in safes:
         msms.click_cell(coordinate)
     if not safes.size:
         coordinate = id2coordinate((solutions == SAFE).sum(axis=0).argmax())
         if field[coordinate] != UNKNOWN:
             unknowns = (field == UNKNOWN).nonzero()
-            coordinate = unknowns[0][0], unknowns[0][1]
+            coordinate = unknowns[0][0], unknowns[1][0]
         msms.click_cell(coordinate)
     mines = ((solutions == MINE).sum(axis=0) == len(solutions)).nonzero()
     field[mines] = FLAGGED
     for coordinate in numpy.vstack(mines).transpose():
         msms.click_cell(coordinate, button="right")
     msms.update_field(field)
-    print_field(field)
-    if (field != UNKNOWN).all():
+    #print_field(field)
+    if (field == UNKNOWN).all():
         quit()
