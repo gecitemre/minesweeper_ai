@@ -111,5 +111,4 @@ while True:
     msms.update_field(field)
     print_field(field)
     if (field != UNKNOWN).all():
-        pyautogui.screenshot().show()
         quit()

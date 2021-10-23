@@ -99,7 +99,7 @@ def update_field_helper(screenshot, field, field2, y=0, x=0):
                 field[j, i] = get_code(
                     screenshot.crop(cell_coordinates[FIELD_WIDTH * j + i])
                 )
-            if field2[j, i] == False and field[j, i] != UNKNOWN:
+            if field2[j, i] == False and field[j, i] != UNKNOWN and field[j, i]!= FLAGGED:
                 field2[j, i] = True
                 update_field_helper(screenshot, field, field2, j, i)
 
