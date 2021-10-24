@@ -95,9 +95,6 @@ field = UNKNOWN * numpy.ones((msms.FIELD_HEIGHT, msms.FIELD_WIDTH), dtype=numpy.
 
 while True:
     solutions = numpy.array(find_solutions(field, 0))
-    if not solutions.size:
-        quit()
-    print(solutions)
     safes = numpy.vstack(
         ((solutions == SAFE).sum(axis=0) == len(solutions)).nonzero()
     ).transpose()
@@ -114,6 +111,4 @@ while True:
     for coordinate in numpy.vstack(mines).transpose():
         msms.click_cell(coordinate, button="right")
     msms.update_field(field)
-    #print_field(field)
-    if (field == UNKNOWN).all():
-        quit()
+    print_field(field)
