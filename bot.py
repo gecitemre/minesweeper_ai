@@ -1,5 +1,4 @@
 import numpy
-import pyautogui
 import msms
 import numpy
 from itertools import combinations
