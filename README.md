@@ -9,10 +9,9 @@ The AI is trained on 9x9 and 30x16 fields. In other fields, since the image size
 The train data is in data folder. You can change the train data and create a new classifier network using classifier.py.
 
 How to use:
-1 - Download Microsoft Minesweeper from Microsoft Store, and open.
-2 - Choose a field.
-3 - Run "bot.py" (No other windows must not be on top of the minefield).
-4 - The program needs the coordinates of the field in order to run. You should specify a top_left coordinate and a bottom_right coordinate. The field should lay inside these two corners. The area between these two corners can be greater than the field, but not smaller. To specify these coordinates, drag your mouse to the top left of the field and send an enter using standart input. After doing the same for the bottom right, the program will start running. Enjoy!
+1. Download Microsoft Minesweeper from Microsoft Store, and open.
+2. Choose a field.
+3. Run "bot.py" (No other windows must not be on top of the minefield).
+4. The program needs the coordinates of the field in order to run. You should specify a top_left coordinate and a bottom_right coordinate. The field should lay inside these two corners. The area between these two corners can be greater than the field, but not smaller. To specify these coordinates, drag your mouse to the top left of the field and send an enter using standart input. After doing the same for the bottom right, the program will start running. Enjoy!
 
-WARNING:
--In case the program gets out of control, press ctrl+alt+delete. Program will halt itself.
+WARNING: In case the program gets out of control, press ctrl+alt+delete. Program will halt itself.
